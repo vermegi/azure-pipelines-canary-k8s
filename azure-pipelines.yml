@@ -116,3 +116,11 @@ stages:
                 $(Pipeline.Workspace)/manifests/service.yml
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
               imagePullSecrets: '$(imagePullSecret)'
+
+          - task: KubernetesManifest@0
+            displayName: Deploy Forbio and ServiceMonitor
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: 'aks-tst-canary'
+              manifests: |
+                $(Pipeline.Workspace)/misc/*
