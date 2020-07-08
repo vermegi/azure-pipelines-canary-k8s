@@ -50,8 +50,8 @@ stages:
   condition: succeeded()
 
   jobs:
-  - deployment: Deploy dev
-    displayName: Deploydev
+  - deployment: Deploydev
+    displayName: Deploy dev
     pool:
       vmImage: $(vmImageName)
     environment: 'akscanarydev'
