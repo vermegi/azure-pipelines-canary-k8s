@@ -43,6 +43,9 @@ stages:
           
     - upload: manifests
       artifact: manifests
+      
+    - upload: misc
+      artifact: misc
 
 - stage: DeployDev
   displayName: Deploy dev
