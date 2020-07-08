@@ -43,7 +43,7 @@ stages:
           
     - upload: manifests
       artifact: manifests
-      
+
     - upload: misc
       artifact: misc
 
@@ -148,6 +148,7 @@ stages:
             inputs:
               action: 'promote'
               kubernetesServiceConnection: 'aks-tst-canary'
+              strategy: 'canary'
               manifests: '$(Pipeline.Workspace)/manifests/*'
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
               imagePullSecrets: '$(imagePullSecret)'
@@ -168,4 +169,5 @@ stages:
             inputs:
               action: 'reject'
               kubernetesServiceConnection: 'aks-tst-canary'
+              strategy: 'canary'
               manifests: '$(Pipeline.Workspace)/manifests/*'
