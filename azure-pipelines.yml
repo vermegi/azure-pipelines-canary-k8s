@@ -124,3 +124,46 @@ stages:
               kubernetesServiceConnection: 'aks-tst-canary'
               manifests: |
                 $(Pipeline.Workspace)/misc/*
+
+- stage: PromoteRejectCanaryTst
+  displayName: Promote Reject canary Tst
+  dependsOn: DeployTst
+  condition: succeeded()
+
+  jobs:
+  - job: promoterejectinput
+    displayName: promote/reject input
+    steps:
+    - task: ManualIntervention@8
+      inputs:
+        instructions: 'Please check the canary deployment and decide whether to promote (resume) or reject'
+        emailRecipients: 'givermei@microsoft.com'
+  - job: PromoteCanary
+    displayName: Promote Canary
+    pool: 
+      vmImage: $(vmImageName)
+    dependsOn: promoterejectinput
+    condition: succeeded()
+    steps:
+    - task: KubernetesManifest@0
+      displayName: promote canary
+      inputs:
+        action: 'promote'
+        kubernetesServiceConnection: 'aks-tst-canary'
+        manifests: '$(Pipeline.Workspace)/manifests/*'
+        containers: '$(containerRegistry)/$(imageRepository):$(tag)'
+        imagePullSecrets: '$(imagePullSecret)'
+
+  - job: RejectCanary
+    displayName: Promote Canary
+    pool: 
+      vmImage: $(vmImageName)
+    dependsOn: promoterejectinput
+    condition: failed()
+    steps:
+    - task: KubernetesManifest@0
+      displayName: reject canary
+      inputs:
+        action: 'reject'
+        kubernetesServiceConnection: 'aks-tst-canary'
+        manifests: '$(Pipeline.Workspace)/manifests/*'
