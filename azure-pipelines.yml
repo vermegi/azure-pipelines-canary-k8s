@@ -87,10 +87,10 @@ stages:
 
   jobs:
   - deployment: Deploytst
-    displayName: Deploy tst
+    displayName: Deploy tst canary
     pool:
       vmImage: $(vmImageName)
-    environment: 'akscanarydev'
+    environment: 'akscanarytst'
     strategy:
       runOnce:
         deploy:
@@ -109,6 +109,8 @@ stages:
             inputs:
               action: 'deploy'
               kubernetesServiceConnection: 'aks-tst-canary'
+              strategy: 'canary'
+              percentage: '25'
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/service.yml
