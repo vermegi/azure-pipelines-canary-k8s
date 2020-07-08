@@ -51,7 +51,7 @@ stages:
 
   jobs:
   - deployment: Deploy dev
-    displayName: Deploy dev
+    displayName: Deploydev
     pool:
       vmImage: $(vmImageName)
     environment: 'akscanarydev'
