@@ -136,7 +136,7 @@ stages:
     - job: RunUITests
       displayName: Run UI Tests
       pool: 
-       vmImage: $(vmImageName)
+       vmImage: 'windows-latest'
       steps:
         - task: VSTest@2
           inputs:
