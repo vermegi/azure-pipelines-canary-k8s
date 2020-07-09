@@ -153,13 +153,17 @@ stages:
               containers: '$(containerRegistry)/$(imageRepository):$(tag)'
               imagePullSecrets: '$(imagePullSecret)'
 
+- stage: RejectCanaryTst
+  displayName: Reject canary Tst
+  dependsOn: PromoteRejectCanaryTst
+  condition: failed()
+
+  jobs:
   - deployment: RejectCanary
     displayName: Reject Canary
     pool: 
       vmImage: $(vmImageName)
     environment: akscanarytst
-    dependsOn: PromoteCanary
-    condition: failed()
     strategy:
       runOnce:
         deploy:
