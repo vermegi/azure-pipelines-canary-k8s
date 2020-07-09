@@ -128,6 +128,25 @@ stages:
               manifests: |
                 $(Pipeline.Workspace)/misc/*
 
+- stage: RunUITests
+  displayName: Run UI Tests
+  dependsOn: DeployTst
+  condition: succeeded()
+  jobs:
+    - job: RunUITests
+      displayName: Run UI Tests
+      pool: 
+       vmImage: $(vmImageName)
+      steps:
+        - task: VSTest@2
+          inputs:
+            testSelector: 'testAssemblies'
+            testAssemblyVer2: |
+              **\*test*.dll
+              !**\*TestAdapter.dll
+              !**\obj\**
+            searchFolder: '$(System.DefaultWorkingDirectory)'
+
 - stage: PromoteRejectCanaryTst
   displayName: Promote Reject canary Tst
   dependsOn: DeployTst
