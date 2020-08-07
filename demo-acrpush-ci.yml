@@ -13,7 +13,7 @@ variables:
   imageRepository: 'acrpush-demo'
   dockerfilePath: '**/Dockerfile'
   dockerRegistryServiceConnection: 'acr-connection'
-  tag: '$(Build.BuildId)'
+  tag: 'jenkins-$(Build.BuildId)'
 
 steps:
 - task: Docker@2
@@ -24,7 +24,7 @@ steps:
     dockerfile: $(dockerfilePath)
     containerRegistry: $(dockerRegistryServiceConnection)
     tags: |
-      $(tag) |
+      $(tag)
       unstable
 
 
