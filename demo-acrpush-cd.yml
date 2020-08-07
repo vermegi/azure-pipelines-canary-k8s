@@ -37,7 +37,7 @@ stages:
     displayName: Deploy dev
     pool:
       vmImage: $(vmImageName)
-    environment: aksacrpushdemo
+    environment: 'aksacrpushdemo'
     strategy:
       runOnce:
         deploy:
@@ -50,7 +50,6 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-              kubernetesServiceConnection: aks-dev-canary
               
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
