@@ -12,10 +12,10 @@ variables:
 
 resources: 
  repositories:
- - repository: githubrepo
-   type: github
-   name: vermegi/azure-pipelines-canary-k8s
-   endpoint: vermegi
+#  - repository: githubrepo
+#    type: github
+#    name: vermegi/azure-pipelines-canary-k8s
+#    endpoint: vermegi
  containers:
   - container: acrpushdemocontainer      
     type: ACR  
@@ -42,7 +42,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - checkout: githubrepo 
+          - checkout: self 
 
           - task: KubernetesManifest@0
             displayName: Create imagePullSecret
