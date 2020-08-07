@@ -11,11 +11,11 @@ variables:
   
 
 resources: 
- repositories:
- - repository: githubrepo
-   type: github
-   name: vermegi/azure-pipelines-canary-k8s
-   endpoint: vermegi
+#  repositories:
+#  - repository: githubrepo
+#    type: github
+#    name: vermegi/azure-pipelines-canary-k8s
+#    endpoint: vermegi
  containers:
   - container: acrpushdemocontainer      
     type: ACR  
