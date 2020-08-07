@@ -1,1 +1,66 @@
-#TODO
+#pipeline triggers on each new container push to ACR, which has a feature-* tag
+
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'acr-connection'
+  imagePullSecret: 'aksdevops3acr1234-auth'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  
+
+resources: 
+ repositories:
+ - repository: githubrepo
+   type: github
+   name: vermegi/azure-pipelines-canary-k8s
+   endpoint: vermegi
+ containers:
+  - container: acrpushdemocontainer      
+    type: ACR  
+    azureSubscription: aksdevops3-dev - Azure
+    resourceGroup: aksdevops3-rg
+    registry: aksdevops3acr
+    repository: acrpush-demo
+    trigger: 
+      tags:
+        include: 
+        - feature-* 
+
+stages: 
+- stage: DeployDev
+  displayName: Deploy feature to dev
+
+  jobs:
+  - deployment: Deploydev
+    displayName: Deploy dev
+    pool:
+      vmImage: $(vmImageName)
+    environment: aksacrpushdemo
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: githubrepo 
+
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+              kubernetesServiceConnection: aks-dev-canary
+              
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                $(Build.SourcesDirectory)/**/manifests/deployment.yml
+                $(Build.SourcesDirectory)/**/manifests/service.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                acrpushdemocontainer
+
