@@ -11,7 +11,7 @@ variables:
   
 
 resources: 
- repositories:
+# repositories:
 #  - repository: githubrepo
 #    type: github
 #    name: vermegi/azure-pipelines-canary-k8s
