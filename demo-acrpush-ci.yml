@@ -13,7 +13,7 @@ variables:
   imageRepository: 'acrpush-demo'
   dockerfilePath: '**/Dockerfile'
   dockerRegistryServiceConnection: 'acr-connection'
-  tag: 'jenkins-$(Build.BuildId)'
+  tag: '$(Build.BuildId)'
 
 steps:
 - task: Docker@2
