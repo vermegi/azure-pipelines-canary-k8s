@@ -50,6 +50,7 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+              kubernetesServiceConnection: aksacrpushdemo-aksdevops3-dev-acrpushdemodev-1596802948821
               
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
@@ -62,4 +63,5 @@ stages:
                 $(imagePullSecret)
               containers: |
                 acrpushdemocontainer
+              kubernetesServiceConnection: aksacrpushdemo-aksdevops3-dev-acrpushdemodev-1596802948821
 
