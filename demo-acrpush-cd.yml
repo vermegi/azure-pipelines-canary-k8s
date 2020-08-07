@@ -19,7 +19,7 @@ resources:
  containers:
   - container: acrpushdemocontainer      
     type: ACR  
-    azureSubscription: aksdevops3-dev - Azure
+    azureSubscription: armsubscriptionconnection
     resourceGroup: aksdevops3-rg
     registry: aksdevops3acr
     repository: acrpush-demo
