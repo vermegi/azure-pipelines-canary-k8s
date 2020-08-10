@@ -5,8 +5,6 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'acr-connection'
   imagePullSecret: 'aksdevops3acr1234-auth'
-  containerRegistry: 'aksdevops3acr.azurecr.io'
-  imageRepository: 'acrpush-demo'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
