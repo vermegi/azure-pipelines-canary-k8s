@@ -63,5 +63,5 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepository):$(resources.container.acrpushdemocontainer.tag)
+                $(resources.container.acrpushdemocontainer.registry)/$(resources.container.acrpushdemocontainer.repository):$(resources.container.acrpushdemocontainer.tag)
 
